@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <form>
+        <div class="form-row align-items-center">
+          <div class="col-auto">
+            <label class="sr-only" for="inlineFormInput">Student Name</label>
+            <input
+              type="text"
+              class="form-control mb-2"
+              id="sname"
+              placeholder="Jane Doe"
+            />
+          </div>
+          <div class="col-auto">
+            <label class="sr-only" for="inlineFormInputGroup">Mentor</label>
+            <div class="input-group mb-2">
+              <div class="input-group-prepend">
+                <div class="input-group-text">@</div>
+              </div>
+              <input
+                type="text"
+                class="form-control"
+                id="mname"
+                placeholder="Mentor assigned"
+              />
+            </div>
+          </div>
+
+          <div class="col-auto">
+            <button onclick="addStudent()" class="btn btn-primary mb-2">
+              Add Student
+            </button>
+          </div>
+        </div>
+      </form>
+      <table class="table">
+        <thead class="thead-dark">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Student</th>
+            <th scope="col">Assigned</th>
+            <th scope="col">Mentor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Yes</td>
+            <td>Ashok</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Yes</td>
+            <td>RV</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>Yes</td>
+            <td>Arun</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Sam</td>
+            <td>No</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <script>
+      async function addStudent(){
+          var data = {
+              name = document.getElementById('sname').value,
+              mentor = document.getElementById('mname').value
+          }
+          await fetch('http://localhost:3030/student',{
+          method:'POST',
+          body: JSON.stringify(data),
+      headers: {
+          "Content-Type":"application/json"
+      }})
+      alert('done')
+      }
+    </script>
+  </body>
+</html>
