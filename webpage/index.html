@@ -20,6 +20,7 @@
               class="form-control mb-2"
               id="sname"
               placeholder="Jane Doe"
+              required
             />
           </div>
           <div class="col-auto">
@@ -33,6 +34,7 @@
                 class="form-control"
                 id="mname"
                 placeholder="Mentor assigned"
+                required
               />
             </div>
           </div>
@@ -44,57 +46,49 @@
           </div>
         </div>
       </form>
-      <table class="table">
+      <table class="table" id="studentList">
         <thead class="thead-dark">
           <tr>
             <th scope="col">#</th>
             <th scope="col">Student</th>
-            <th scope="col">Assigned</th>
             <th scope="col">Mentor</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Yes</td>
-            <td>Ashok</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Yes</td>
-            <td>RV</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>Yes</td>
-            <td>Arun</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Sam</td>
-            <td>No</td>
-            <td></td>
-          </tr>
-        </tbody>
+        <tbody id="body"></tbody>
       </table>
     </div>
     <script>
-      async function addStudent(){
-          var data = {
-              name = document.getElementById('sname').value,
-              mentor = document.getElementById('mname').value
-          }
-          await fetch('http://localhost:3030/student',{
-          method:'POST',
+      async function addStudent() {
+        var data = {
+          name: document.getElementById("sname").value,
+          mentor: document.getElementById("mname").value,
+        };
+        await fetch("http://localhost:3030/student", {
+          method: "POST",
           body: JSON.stringify(data),
-      headers: {
-          "Content-Type":"application/json"
-      }})
-      alert('done')
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        alert("done");
       }
+      async function getStudentList() {
+        try {
+          let studentFetch = await fetch("http://localhost:3030/students");
+          let data = await studentFetch.json();
+          data.forEach((student, index) => {
+            let tbody = document.getElementById("body");
+            tbody.innerHTML += `<tr scope="row"><th>${index + 1}</th><td>${
+              student.name
+            }</td><td>${student.mentor}</td></tr>`;
+          });
+        } catch (err) {
+          console.log(err);
+        }
+      }
+      window.onload = () => {
+        getStudentList();
+      };
     </script>
   </body>
 </html>

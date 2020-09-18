@@ -5,7 +5,8 @@ const app = express();
 const bodyParser = require("body-parser");
 const mongodb = require("mongodb");
 const mongoClient = mongodb.MongoClient;
-const url = "mongodb://localhost:27017";
+const url =
+  "mongodb+srv://pran34:praneeth7474292@assign-mentor.xutey.mongodb.net/test?retryWrites=true&w=majority";
 const cors = require("cors");
 
 app.use(
@@ -36,7 +37,7 @@ app.post("/student", async (req, res) => {
     let db = client.db("test");
     let insertedStudent = await db
       .collection("students")
-      .insertOne({ name: req.body.name });
+      .insertOne({ name: req.body.name, mentor: req.body.mentor });
     client.close();
     res.json({
       message: "student created",
@@ -74,7 +75,7 @@ app.put("/student/:id", async (req, res) => {
       .collection("students")
       .findOneAndUpdate(
         { _id: mongodb.ObjectId(req.params.id) },
-        { $set: { name: req.body.name } }
+        { $set: { name: req.body.name, mentor: req.body.mentor } }
       );
     client.close();
     res.json(student);
@@ -96,6 +97,6 @@ app.delete("/student/:id", async (req, res) => {
   }
 });
 
-app.listen(3030, () => {
+app.listen(process.env.PORT || 3030, () => {
   console.log("listening at http://localhost:3030");
 });
