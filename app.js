@@ -11,7 +11,7 @@ const cors = require("cors");
 
 app.use(
   cors({
-    origin: "https://condescending-poincare-9e23ea.netlify.app",
+    origin: "https://condescending-poincare-9e23ea.netlify.app/",
   })
 );
 
@@ -97,6 +97,4 @@ app.delete("/student/:id", async (req, res) => {
   }
 });
 
-app.listen(process.env.PORT || 3030, () => {
-  console.log("listening at http://localhost:3030");
-});
+app.listen(process.env.PORT || 3030, () => {});
